@@ -47,7 +47,7 @@ const shortUrl = async (req , res) => {
     
     //caching
     const cachedUrl = await GET_ASYNC(`${longUrl}`);
-    console.log(`cachedUrl : ${cachedUrl}`)
+    // console.log(`cachedUrl : ${cachedUrl}`)
     if (cachedUrl) {
         // const { longUrl } = JSON.parse(cachedUrl);
         return res.send(JSON.parse(cachedUrl))
