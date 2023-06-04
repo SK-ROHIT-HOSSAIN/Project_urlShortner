@@ -95,7 +95,7 @@ const getShortUrl = async (req, res) => {
 
         //finding url in cache
         const cachedUrl = await GET_ASYNC(`${urlCode}`);
-        console.log(cachedUrl)
+        console.log(`cachedUrl : ${cachedUrl}`)
         //redirect url if found in cache
         if (cachedUrl) {
             const { longUrl } = JSON.parse(cachedUrl);
@@ -104,7 +104,7 @@ const getShortUrl = async (req, res) => {
 
         //finding url in database
         const url = await urlModel.findOne({urlCode});
-        console.log(url)
+        console.log(`url: ${url}`)
         if (!url) {
             return res.status(404).json({
                 status: false,
@@ -112,10 +112,10 @@ const getShortUrl = async (req, res) => {
             });
         }
         //seting url in cache
-        await SET_ASYNC(`${urlCode}`, JSON.stringify(url))
+        await SET_ASYNC(`${urlCode}`, JSON.stringify({ longUrl: url.longUrl }))
 
-        return res.status(302).redirect(JSON.parse({ longUrl: url.longUrl }))
-
+        return res.status(302).redirect(url.longUrl)
+  
     } catch (error) {
         res.status(500).send({
             status: false,
